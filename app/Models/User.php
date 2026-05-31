@@ -1,0 +1,24 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+
+class User extends Authenticatable {
+    use Notifiable;
+
+    protected $fillable = ['name','email','password','is_admin','gender','address','avatar'];
+    protected $hidden   = ['password','remember_token'];
+    protected $casts    = ['password' => 'hashed', 'is_admin' => 'boolean'];
+
+    public function animes() {
+        return $this->hasMany(Anime::class);
+    }
+
+    public function getAvatarUrlAttribute(): string {
+        return $this->avatar
+            ? asset('uploads/avatars/' . $this->avatar)
+            : '';
+    }
+}
