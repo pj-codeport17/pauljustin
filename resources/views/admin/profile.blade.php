@@ -16,7 +16,7 @@
             <div class="avatar-wrap">
                 @if($user->avatar)
                 <div class="avatar-ring"></div>
-             <img src="{{ secure_asset('uploads/avatars/'.$user->avatar) }}" class="avatar-lg">
+                <img src="{{ asset('uploads/avatars/'.$user->avatar) }}" class="avatar-lg">
                 @else
                 <div class="avatar-ring"></div>
                 <div class="avatar-placeholder" style="width:88px;height:88px;font-size:2.2rem">

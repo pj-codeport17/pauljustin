@@ -162,31 +162,7 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{{ secure_asset('assets/js/app.js') }}?v=5"></script>
-<script>
-const sidebar = document.getElementById('sidebar');
-const mainContent = document.getElementById('mainContent');
-const toggleBtn = document.getElementById('sidebarToggle');
-const MOBILE = () => window.innerWidth < 769;
-
-if (toggleBtn && sidebar && mainContent) {
-    toggleBtn.addEventListener('click', () => {
-        if (MOBILE()) {
-            sidebar.classList.toggle('open');
-        } else {
-            sidebar.classList.toggle('collapsed');
-            mainContent.classList.toggle('expanded');
-        }
-    });
-}
-
-document.querySelectorAll('.toast').forEach(el => {
-    setTimeout(() => {
-        const t = bootstrap.Toast.getOrCreateInstance(el);
-        t.hide();
-    }, 4000);
-});
-</script>
+<script src="{{ secure_asset('assets/js/app.js') }}?v=6"></script>
 @yield('scripts')
 </body>
 </html>
