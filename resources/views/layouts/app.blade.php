@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-    <link rel="stylesheet" href="{{ secure_asset('assets/css/style.css') }}?v=4">
+    <link rel="stylesheet" href="{{ secure_asset('assets/css/style.css') }}?v=5">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
 </head>
@@ -26,60 +26,61 @@
         </div>
 
         <div class="pt-2 pb-1">
-        @if(auth()->user()->is_admin)
-            <div class="sidebar-section-label">Admin</div>
-            <ul class="nav flex-column">
-                <li>
-                    <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
-                       href="{{ route('admin.dashboard') }}">
-                        <i class="bi bi-speedometer2"></i> Dashboard
-                    </a>
-                </li>
-                <li>
-                    <a class="nav-link {{ request()->routeIs('admin.users') ? 'active' : '' }}"
-                       href="{{ route('admin.users') }}">
-                        <i class="bi bi-people-fill"></i> Users
-                    </a>
-                </li>
-                <li>
-                    <a class="nav-link {{ request()->routeIs('admin.profile') ? 'active' : '' }}"
-                       href="{{ route('admin.profile') }}">
-                        <i class="bi bi-person-circle"></i> Profile
-                    </a>
-                </li>
-            </ul>
-        @else
-            <div class="sidebar-section-label">Main</div>
-            <ul class="nav flex-column">
-                <li>
-                    <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
-                       href="{{ route('dashboard') }}">
-                        <i class="bi bi-house-fill"></i> Dashboard
-                    </a>
-                </li>
-                <li>
-                    <a class="nav-link {{ request()->routeIs('anime.*') ? 'active' : '' }}"
-                       href="{{ route('anime.index') }}">
-                        <i class="bi bi-collection-play-fill"></i> My Anime
-                    </a>
-                </li>
-            </ul>
-            <div class="sidebar-section-label">Account</div>
-            <ul class="nav flex-column">
-                <li>
-                    <a class="nav-link {{ request()->routeIs('profile') ? 'active' : '' }}"
-                       href="{{ route('profile') }}">
-                        <i class="bi bi-person-circle"></i> Profile
-                    </a>
-                </li>
-                <li>
-                    <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}"
-                       href="{{ route('contact') }}">
-                        <i class="bi bi-chat-left-text"></i> Contact
-                    </a>
-                </li>
-            </ul>
-        @endif
+            @if(auth()->user()->is_admin)
+                <div class="sidebar-section-label">Admin</div>
+                <ul class="nav flex-column">
+                    <li>
+                        <a class="nav-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}"
+                           href="{{ secure_url(route('admin.dashboard', [], false)) }}">
+                            <i class="bi bi-speedometer2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link {{ request()->routeIs('admin.users') ? 'active' : '' }}"
+                           href="{{ secure_url(route('admin.users', [], false)) }}">
+                            <i class="bi bi-people-fill"></i> Users
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link {{ request()->routeIs('admin.profile') ? 'active' : '' }}"
+                           href="{{ secure_url(route('admin.profile', [], false)) }}">
+                            <i class="bi bi-person-circle"></i> Profile
+                        </a>
+                    </li>
+                </ul>
+            @else
+                <div class="sidebar-section-label">Main</div>
+                <ul class="nav flex-column">
+                    <li>
+                        <a class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+                           href="{{ secure_url(route('dashboard', [], false)) }}">
+                            <i class="bi bi-house-fill"></i> Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link {{ request()->routeIs('anime.*') ? 'active' : '' }}"
+                           href="{{ secure_url(route('anime.index', [], false)) }}">
+                            <i class="bi bi-collection-play-fill"></i> My Anime
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="sidebar-section-label">Account</div>
+                <ul class="nav flex-column">
+                    <li>
+                        <a class="nav-link {{ request()->routeIs('profile') ? 'active' : '' }}"
+                           href="{{ secure_url(route('profile', [], false)) }}">
+                            <i class="bi bi-person-circle"></i> Profile
+                        </a>
+                    </li>
+                    <li>
+                        <a class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}"
+                           href="{{ secure_url(route('contact', [], false)) }}">
+                            <i class="bi bi-chat-left-text"></i> Contact
+                        </a>
+                    </li>
+                </ul>
+            @endif
         </div>
 
         {{-- Sidebar Footer --}}
@@ -95,6 +96,7 @@
                         {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                     </div>
                 @endif
+
                 <div class="overflow-hidden">
                     <div class="fw-semibold text-truncate" style="font-size:.82rem;color:var(--text)">
                         {{ auth()->user()->name }}
@@ -104,6 +106,7 @@
                     </div>
                 </div>
             </div>
+
             <form method="POST" action="{{ secure_url('/logout') }}" class="d-grid">
                 @csrf
                 <button type="submit" class="btn btn-outline-danger btn-sm">
@@ -116,10 +119,12 @@
     {{-- ── Main Content ─────────────────────────────────── --}}
     <div class="main-content" id="mainContent">
         <div class="topbar">
-            <button class="btn btn-sm" id="sidebarToggle">
+            <button class="btn btn-sm" id="sidebarToggle" type="button">
                 <i class="bi bi-list fs-5"></i>
             </button>
+
             <div class="topbar-title">@yield('title')</div>
+
             <div class="ms-auto d-flex align-items-center gap-2">
                 @if(auth()->user()->avatar)
                     <img src="{{ secure_asset('uploads/avatars/' . auth()->user()->avatar) }}"
@@ -136,19 +141,18 @@
 
         {{-- Toast --}}
         @if(session('success') || session('error'))
-        <div class="toast-container position-fixed top-0 end-0 p-3">
-            <div class="toast show align-items-center border-0
-                text-bg-{{ session('success') ? 'success' : 'danger' }}" role="alert">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        <i class="bi bi-{{ session('success') ? 'check-circle-fill' : 'exclamation-circle-fill' }} me-2"></i>
-                        {{ session('success') ?? session('error') }}
+            <div class="toast-container position-fixed top-0 end-0 p-3">
+                <div class="toast show align-items-center border-0 text-bg-{{ session('success') ? 'success' : 'danger' }}" role="alert">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            <i class="bi bi-{{ session('success') ? 'check-circle-fill' : 'exclamation-circle-fill' }} me-2"></i>
+                            {{ session('success') ?? session('error') }}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto"
+                                data-bs-dismiss="toast"></button>
                     </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto"
-                            data-bs-dismiss="toast"></button>
                 </div>
             </div>
-        </div>
         @endif
 
         <div class="content-area">
@@ -158,21 +162,23 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script src="{{ secure_asset('assets/js/app.js') }}?v=4"></script>
+<script src="{{ secure_asset('assets/js/app.js') }}?v=5"></script>
 <script>
 const sidebar = document.getElementById('sidebar');
 const mainContent = document.getElementById('mainContent');
 const toggleBtn = document.getElementById('sidebarToggle');
 const MOBILE = () => window.innerWidth < 769;
 
-toggleBtn.addEventListener('click', () => {
-    if (MOBILE()) {
-        sidebar.classList.toggle('open');
-    } else {
-        sidebar.classList.toggle('collapsed');
-        mainContent.classList.toggle('expanded');
-    }
-});
+if (toggleBtn && sidebar && mainContent) {
+    toggleBtn.addEventListener('click', () => {
+        if (MOBILE()) {
+            sidebar.classList.toggle('open');
+        } else {
+            sidebar.classList.toggle('collapsed');
+            mainContent.classList.toggle('expanded');
+        }
+    });
+}
 
 document.querySelectorAll('.toast').forEach(el => {
     setTimeout(() => {

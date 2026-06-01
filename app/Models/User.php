@@ -18,7 +18,7 @@ class User extends Authenticatable {
 
     public function getAvatarUrlAttribute(): string {
         return $this->avatar
-            ? asset('uploads/avatars/' . $this->avatar)
+            ? secure_asset('uploads/avatars/' . $this->avatar)
             : '';
     }
 }

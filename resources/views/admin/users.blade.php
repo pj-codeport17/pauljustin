@@ -91,7 +91,7 @@
                 <td>
                     <div class="d-flex align-items-center gap-2">
                         @if($u->avatar)
-                        <img src="{{ asset('uploads/avatars/'.$u->avatar) }}"
+                       <img src="{{ secure_asset('uploads/avatars/'.$u->avatar) }}"
                              width="32" height="32" class="rounded-circle"
                              style="object-fit:cover;border:2px solid var(--border2)">
                         @else
