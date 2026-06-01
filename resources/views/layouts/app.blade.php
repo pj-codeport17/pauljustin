@@ -104,7 +104,7 @@
                     </div>
                 </div>
             </div>
-            <form method="POST" action="{{ route('logout') }}" class="d-grid">
+            <form method="POST" action="{{ secure_url('/logout') }}" class="d-grid">
                 @csrf
                 <button type="submit" class="btn btn-outline-danger btn-sm">
                     <i class="bi bi-box-arrow-right me-1"></i>Sign Out
