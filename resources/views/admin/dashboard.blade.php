@@ -102,38 +102,42 @@
                 </tr>
             </thead>
             <tbody>
-            @forelse($recentUsers as $i => $u)
-            <tr>
-                <td class="text-muted" style="font-size:.78rem">{{ $i+1 }}</td>
-                <td>
-                    <div class="d-flex align-items-center gap-2">
-                        @if($u->avatar)
-                        <img src="{{ secure_asset('storage/avatars/'.$u->avatar) }}" class="avatar-lg">
-                             width="30" height="30" class="rounded-circle"
-                             style="object-fit:cover;border:2px solid var(--border2)">
-                        @else
-                        <div class="avatar-placeholder-sm" style="width:30px;height:30px;font-size:.72rem">
-                            {{ strtoupper(substr($u->name,0,1)) }}
+                @forelse($recentUsers as $i => $u)
+                <tr>
+                    <td class="text-muted" style="font-size:.78rem">{{ $i+1 }}</td>
+                    <td>
+                        <div class="d-flex align-items-center gap-2">
+                            @if($u->avatar)
+                            <img src="{{ secure_asset('uploads/avatars/' . $u->avatar) }}"
+                                width="30"
+                                height="30"
+                                class="rounded-circle"
+                                alt="{{ $u->name }}"
+                                style="object-fit:cover;border:2px solid var(--border2);">
+                            @else
+                            <div class="avatar-placeholder-sm" style="width:30px;height:30px;font-size:.72rem">
+                                {{ strtoupper(substr($u->name, 0, 1)) }}
+                            </div>
+                            @endif
+
+                            <span class="fw-semibold" style="font-size:.875rem">{{ $u->name }}</span>
                         </div>
-                        @endif
-                        <span class="fw-semibold" style="font-size:.875rem">{{ $u->name }}</span>
-                    </div>
-                </td>
-                <td class="text-muted" style="font-size:.82rem">{{ $u->email }}</td>
-                <td><span class="badge bg-primary">{{ $u->animes_count }}</span></td>
-                <td class="text-muted" style="font-size:.78rem">{{ $u->created_at->format('M j, Y') }}</td>
-                <td><span class="badge bg-success">Active</span></td>
-            </tr>
-            @empty
-            <tr>
-                <td colspan="6">
-                    <div class="empty-state">
-                        <i class="bi bi-people empty-state-icon"></i>
-                        <div class="empty-state-text">No users registered yet.</div>
-                    </div>
-                </td>
-            </tr>
-            @endforelse
+                    </td>
+                    <td class="text-muted" style="font-size:.82rem">{{ $u->email }}</td>
+                    <td><span class="badge bg-primary">{{ $u->animes_count }}</span></td>
+                    <td class="text-muted" style="font-size:.78rem">{{ $u->created_at->format('M j, Y') }}</td>
+                    <td><span class="badge bg-success">Active</span></td>
+                </tr>
+                @empty
+                <tr>
+                    <td colspan="6">
+                        <div class="empty-state">
+                            <i class="bi bi-people empty-state-icon"></i>
+                            <div class="empty-state-text">No users registered yet.</div>
+                        </div>
+                    </td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
@@ -143,56 +147,117 @@
 
 @section('scripts')
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    new Chart(document.getElementById('regChart'), {
-        type: 'line',
-        data: {
-            labels: {!! json_encode($regLabels) !!},
-            datasets: [{
-                label:'New Users',
-                data:{!! json_encode($regData) !!},
-                borderColor:'#f5c518',
-                backgroundColor:'rgba(245,197,24,.08)',
-                tension:.4, fill:true,
-                pointBackgroundColor:'#f5c518',
-                pointBorderColor:'var(--bg2)',
-                pointBorderWidth:2,
-                pointRadius:4,
-                pointHoverRadius:6
-            }]
-        },
-        options: {
-            responsive:true, maintainAspectRatio:false,
-            plugins:{ legend:{display:false} },
-            scales:{
-                x:{ticks:{color:'#8b80b0',font:{size:11}},grid:{color:'rgba(46,38,85,.5)'}},
-                y:{ticks:{color:'#8b80b0',stepSize:1,font:{size:11}},grid:{color:'rgba(46,38,85,.5)'},beginAtZero:true}
+    document.addEventListener('DOMContentLoaded', function() {
+        new Chart(document.getElementById('regChart'), {
+            type: 'line',
+            data: {
+                labels: {
+                    !!json_encode($regLabels) !!
+                },
+                datasets: [{
+                    label: 'New Users',
+                    data: {
+                        !!json_encode($regData) !!
+                    },
+                    borderColor: '#f5c518',
+                    backgroundColor: 'rgba(245,197,24,.08)',
+                    tension: .4,
+                    fill: true,
+                    pointBackgroundColor: '#f5c518',
+                    pointBorderColor: 'var(--bg2)',
+                    pointBorderWidth: 2,
+                    pointRadius: 4,
+                    pointHoverRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: '#8b80b0',
+                            font: {
+                                size: 11
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(46,38,85,.5)'
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: '#8b80b0',
+                            stepSize: 1,
+                            font: {
+                                size: 11
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(46,38,85,.5)'
+                        },
+                        beginAtZero: true
+                    }
+                }
             }
-        }
-    });
+        });
 
-    new Chart(document.getElementById('topChart'), {
-        type: 'bar',
-        data: {
-            labels: {!! json_encode($topUsers->pluck('name')) !!},
-            datasets: [{
-                label:'Anime',
-                data:{!! json_encode($topUsers->pluck('animes_count')) !!},
-                backgroundColor:'rgba(245,197,24,.65)',
-                borderColor:'#f5c518',
-                borderWidth:1,
-                borderRadius:6
-            }]
-        },
-        options: {
-            indexAxis:'y', responsive:true, maintainAspectRatio:false,
-            plugins:{ legend:{display:false} },
-            scales:{
-                x:{ticks:{color:'#8b80b0',stepSize:1},grid:{color:'rgba(46,38,85,.5)'},beginAtZero:true},
-                y:{ticks:{color:'#f0ecff',font:{size:11}},grid:{color:'transparent'}}
+        new Chart(document.getElementById('topChart'), {
+            type: 'bar',
+            data: {
+                labels: {
+                    !!json_encode($topUsers - > pluck('name')) !!
+                },
+                datasets: [{
+                    label: 'Anime',
+                    data: {
+                        !!json_encode($topUsers - > pluck('animes_count')) !!
+                    },
+                    backgroundColor: 'rgba(245,197,24,.65)',
+                    borderColor: '#f5c518',
+                    borderWidth: 1,
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: '#8b80b0',
+                            stepSize: 1
+                        },
+                        grid: {
+                            color: 'rgba(46,38,85,.5)'
+                        },
+                        beginAtZero: true
+                    },
+                    y: {
+                        ticks: {
+                            color: '#f0ecff',
+                            font: {
+                                size: 11
+                            }
+                        },
+                        grid: {
+                            color: 'transparent'
+                        }
+                    }
+                }
             }
-        }
+        });
     });
-});
 </script>
 @endsection
