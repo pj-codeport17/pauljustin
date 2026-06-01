@@ -15,7 +15,7 @@
             <div class="avatar-wrap">
                 <?php if($user->avatar): ?>
                 <div class="avatar-ring"></div>
-                <img src="<?php echo e(secure_asset('uploads/avatars/'.$user->avatar)); ?>" class="avatar-lg">
+                <img src="<?php echo e(asset('uploads/avatars/'.$user->avatar)); ?>" class="avatar-lg">
                 <?php else: ?>
                 <div class="avatar-ring"></div>
                 <div class="avatar-placeholder" style="width:88px;height:88px;font-size:2.2rem">
