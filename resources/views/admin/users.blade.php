@@ -102,21 +102,21 @@
 
                     <td>
                         <div class="d-flex align-items-center gap-2">
-                            @if($u->avatar)
-                               <img src="{{ asset('storage/avatars/'.$user->avatar) }}" class="avatar-lg">
-                                     width="32"
-                                     height="32"
-                                     class="rounded-circle"
-                                     alt="{{ $u->name }}"
-                                     style="object-fit:cover;border:2px solid var(--border2)">
-                            @else
-                                <div class="avatar-placeholder-sm" style="width:32px;height:32px;font-size:.78rem">
-                                    {{ strtoupper(substr($u->name, 0, 1)) }}
-                                </div>
-                            @endif
+    @if($u->avatar)
+        <img src="{{ secure_asset('uploads/avatars/'.$u->avatar) }}"
+             width="32"
+             height="32"
+             class="rounded-circle"
+             alt="{{ $u->name }}"
+             style="object-fit:cover;border:2px solid var(--border2)">
+    @else
+        <div class="avatar-placeholder-sm" style="width:32px;height:32px;font-size:.78rem">
+            {{ strtoupper(substr($u->name, 0, 1)) }}
+        </div>
+    @endif
 
-                            <span class="fw-semibold" style="font-size:.875rem">{{ $u->name }}</span>
-                        </div>
+    <span class="fw-semibold" style="font-size:.875rem">{{ $u->name }}</span>
+</div>
                     </td>
 
                     <td class="text-muted" style="font-size:.82rem">{{ $u->email }}</td>
